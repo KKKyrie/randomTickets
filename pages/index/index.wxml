@@ -40,7 +40,7 @@
 
       <view class="picker-container flex-container white-bg mt20">
         <picker bindchange="bindPickerChange" value="{{index}}" range="{{pickerRange}}" class="picker-select">
-          <view class="picker">
+          <view class="picker flex-container">
             购票张数：{{pickerValue}}
           </view>
         </picker>

@@ -66,10 +66,12 @@
 
 .picker-select {
   padding: 20rpx 0;
+  width: 96%;
 }
 
 .picker {
   font-size: 30rpx;
+  width: 100%;
 }
 
 
