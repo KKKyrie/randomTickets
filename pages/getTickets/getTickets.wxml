@@ -1,0 +1,11 @@
+<!--pages/getTickets/getTickets.wxml-->
+<view>
+	
+	<view class=""></view>
+
+	<!-- bottom button -->
+    <view class="fixed-bottom block-full-width flex-container white-bg">
+    	<button class="light-green-bg white full-button" hover-class="light-green-hover" catchtap=""> 随机购票 </button>
+    </view>
+
+</view>

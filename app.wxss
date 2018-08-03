@@ -1,0 +1,144 @@
+/**app.wxss**/
+page {
+  background-color: #f2f2f2;
+}
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  /*padding: 200rpx 0;*/
+  box-sizing: border-box;
+}
+
+/*theme color begin*/
+.yellow {
+	color: #ffc44f;
+}
+.blue {
+	color: #194f82;
+}
+.light-green {
+	color: #1aad19;
+}
+.white {
+	color: #ffffff;
+}
+.white-bg {
+	background-color: #ffffff;
+}
+.yellow-bg {
+	background-color: #ffc44f;
+}
+.blue-bg {
+	background-color: #194f82;
+}
+.light-green-bg {
+	background-color: #1aad19;
+}
+/*theme color end*/
+
+.test{
+	border: 1rpx solid black;
+}
+
+.fixed-top {
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.fixed-bottom{
+	position: fixed;
+	bottom: 0rpx;
+	left: 0rpx;
+	box-shadow: 0 -5rpx 20rpx #c9c9c9;
+}
+
+.block-full-width{
+	display: block;
+	width: 100%;
+	height: 150rpx;
+}
+
+.flex-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+/*button begin*/
+.full-button {
+	width: 80%;
+}
+
+.light-green-hover {
+	background-color: #34a123;
+}
+/*button end*/
+
+/*layout begin*/
+.mt20 {
+	margin-top: 20rpx;
+}
+
+.mt30 {
+	margin-top: 30rpx;
+}
+
+.mt50 {
+	margin-top: 50rpx;
+}
+
+.mt10 {
+	margin-top: 10rpx;
+}
+.mt200 {
+	margin-top: 200rpx;
+}
+.ptb300{
+	padding: 300rpx 0;
+}
+.mb20 {
+	margin-bottom: 20rpx;
+}
+.mb30 {
+	margin-bottom: 30rpx !important;
+}
+.plr30 {
+	padding-left: 30rpx;
+	padding-right: 30rpx;
+}
+/*layout end*/
+
+
+/* 修正 text 组件 英文&符号不换行的问题  begin */
+text {
+	word-wrap: break-all;
+	word-break: break-word;
+	text-align: justify;
+}
+/* 修正 text 组件 英文&符号不换行的问题  end */
+
+/*甜甜圈loading start*/
+@keyframes donut-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.donut {
+  display: inline-block;
+  border: 4rpx solid rgba(0, 0, 0, 0.1);
+  border-left-color: #1AAD19;
+  border-radius: 50%;
+  width: 60rpx;
+  height: 60rpx;
+  animation: donut-spin 0.5s linear infinite;
+}
+/*甜甜圈loading end*/

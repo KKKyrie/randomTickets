@@ -1,0 +1,65 @@
+<!--index.wxml-->
+<view>
+
+  <!-- launch init animation begin -->
+  <block wx:if="{{initLoading}}">
+    <view class="container">
+      <view class="userinfo ptb300">
+        <view class="donut"></view>
+      </view>
+    </view>
+  </block>
+  <!-- launch init animation end -->
+
+  <block wx:else>
+    <!-- no user info -->
+    <view wx:if="{{!hasUserInfo && canIUse}}" class="main-container mt200">    
+      <view class="auth-banner">
+        <text>为了更好的使用「佛系买票」，需要你授权小程序以下个人信息：</text>
+        <text class="mt20">⒈ 微信昵称</text>
+        <text class="mt10">⒉ 微信头像</text>
+      </view>
+
+      <view class="mt20">
+        <image src="../../images/index/loading.gif" mode="aspectFit" class="loading-pic"></image>
+      </view>
+    </view>
+
+    
+    <!-- has user info -->
+    <!-- main view -->
+    <view wx:else class="main-container">
+      <view class="index-header">
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
+          
+        <view class="title-container">
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+          <text class="userinfo-sentence">买到票了吗？</text>
+          </view>
+      </view>
+
+      <view class="picker-container flex-container white-bg mt20">
+        <picker bindchange="bindPickerChange" value="{{index}}" range="{{pickerRange}}" class="picker-select">
+          <view class="picker">
+            购票张数：{{pickerValue}}
+          </view>
+        </picker>
+      </view>
+      
+    </view>
+
+
+
+    <!-- bottom button -->
+    <view class="fixed-bottom block-full-width flex-container white-bg">
+      
+      <block wx:if="{{!hasUserInfo && canIUse}}">
+        <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="light-green-bg white full-button" hover-class="light-green-hover"> 确认授权使用 </button>
+      </block>
+
+      <block wx:else>
+        <button class="light-green-bg white full-button" hover-class="light-green-hover" catchtap="getTickets"> 随机购票 </button>
+      </block>
+    </view>
+  </block>
+</view>
