@@ -74,4 +74,30 @@
   width: 100%;
 }
 
+.tickets-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 80%;
+  padding: 10rpx;
+}
+
+.ticket {
+  width: 100%;
+  padding: 20rpx 30rpx;
+
+  border: 1px solid #dcdcdc;
+  border-radius: 15rpx;
+
+  font-size: 30rpx;
+
+  margin-bottom: 30rpx;
+}
+
+.ticket:last-child {
+  margin-bottom: 180rpx;
+}
+
 

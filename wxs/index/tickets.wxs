@@ -1,0 +1,48 @@
+var getPositionByNumber = function(number) {
+  var section = '';
+  var minus = 0;
+  var borders = [1, 1950, 1951, 3900, 3901, 5850, 5851, 7800];
+
+  // 计算区域
+  if (number >= borders[0] && number <= borders[1]){
+    section = 'A';
+  } else if (number >= borders[2] && number <= borders[3]){
+    section = 'B';
+    minus = borders[1];
+  } else if (number >= borders[4] && number <= borders[5]){
+    section = 'C';
+    minus = borders[3];
+  } else if (number >= borders[6] && number <= borders[7]){
+    section = 'D';
+    minus = borders[5];
+  } else {
+    throw new Error('unexpected seat number: ' + number);
+  }
+
+
+  //计算具体位置（几排第几个座）
+  var _number = number - minus;
+
+  var row = Math.ceil((-49 + Math.sqrt(49*49 + 4*_number)) / 2);
+
+  var seatsBefore = 0; // 之前行的座位总数
+  if (row > 1){
+    seatsBefore = 50*(row-1) + (row-1) * (row-2);
+  }
+
+  var column = _number - seatsBefore; // 当前行的
+
+  var position = {
+    number: number,
+    section: section,
+    row: row,
+    column: column
+  };
+
+  return position;
+}
+
+
+module.exports = {
+  getPositionByNumber: getPositionByNumber
+}

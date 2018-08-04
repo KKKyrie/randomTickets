@@ -1,5 +1,6 @@
 //index.js
 const app = getApp();
+const util = require('../../utils/util.js');
 
 Page({
   data: {
@@ -9,12 +10,18 @@ Page({
     initLoading: true,
 
     pickerRange: [1,2,3,4,5],
-    pickerValue: 1
+    pickerValue: 1,
+    randomSeats: {},
+    randomSeatsArr: [],
+    randomSeatsCount: 0,
+    TOTAL_SEATS_COUNT: 7800,
+    SECTION_BORDERS: [1, 1950, 1951, 3900, 3901, 5850, 5851, 7800]
   },
 
 
   onLoad: function() {
     this.initUserInfo();
+    this.getInitTickets();
   },
 
   onShow: function() {
@@ -23,11 +30,22 @@ Page({
 
 
   getUserInfo: function(e) {
-    app.globalData.userInfo = e.detail.userInfo
+    app.globalData.userInfo = e.detail.userInfo;
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
-    })
+    });
+  },
+
+  getInitTickets: function() {
+    let tickets = app.globalData.tickets;
+    let ticketsArr = Object.keys(tickets);
+    let count = ticketsArr.length;
+    this.setData({
+      randomSeats: tickets,
+      randomSeatsArr: ticketsArr,
+      randomSeatsCount: count
+    });
   },
 
   // 关闭小程序loading动画
@@ -35,8 +53,8 @@ Page({
     setTimeout(() => {
       this.setData({
         initLoading: false
-      })
-    }, 1500)
+      });
+    }, 750);
   },
 
   // 初始化用户数据
@@ -73,20 +91,43 @@ Page({
   bindPickerChange: function(e){
     let range = this.data.pickerRange;
     let index = e.detail.value;
-    console.log(range[index]);
     this.setData({
       pickerValue: range[index]
     });
   },
 
 
-  getTickets: function() {
+  getRandomTickets: function() {
     let ticketsCount = this.data.pickerValue;
+    let max = this.data.TOTAL_SEATS_COUNT;
+    let leftTickets = max - this.data.randomSeatsCount;
+    let seats = this.data.randomSeats;
+    let seatNumber = 0;
+    let position = {};
+    let tempTickets = [];
+    
+    // 用户输入不合法
     if (!this.checkUserInput(ticketsCount)){
       return;
     }
 
-    // todo: 随机选择座位（用对象保存，天然的hashtable）
+    // 剩余票不足
+    if (ticketsCount > leftTickets){
+      this.showErrorMsg('剩余票不足');
+      return;
+    }
+
+
+    for (let i = 0; i < ticketsCount; i++){
+      do {
+        seatNumber = util.getRandomNumber(max);
+      } while (seats[seatNumber]);
+      
+      tempTickets.push(seatNumber);      
+    }
+
+    this.showTicketInfo(tempTickets);
+
   },
 
 
@@ -114,6 +155,48 @@ Page({
       confirmText: '好嘞',
       confirmColor: '#1aad19'
     });
+  },
+
+  showTicketInfo: function(tickets) {
+    let that = this;
+    let content = '为你挑选座位：';
+    let ticket = {};
+    let borders = that.data.SECTION_BORDERS;
+    tickets.forEach(function(value){
+      ticket = util.getPositionByNumber(value, borders);
+      content += `${ticket.section}-${ticket.row}-${ticket.column}  `;
+    });
+    wx.showModal({
+      title: '提示',
+      content: content,
+      confirmText: '确认购买',
+      cancelText: '取消',
+      success: function(res) {
+        if (res.confirm) {
+          that.confirmBuyTickets(tickets);
+        } else if (res.cancel) {
+          console.log('cancel');
+        }
+      }
+    });
+  },
+
+  confirmBuyTickets: function(tickets){
+
+    let globalTickets = app.globalData.tickets;
+    tickets.forEach(function(value){
+      globalTickets[value] = true;
+    });
+    wx.setStorageSync('userTickets', JSON.stringify(globalTickets));
+    
+    this.setData({
+      initLoading: true
+    });
+
+    this.getInitTickets();
+
+    this.turnOffLoading();
+
   }
 
 });

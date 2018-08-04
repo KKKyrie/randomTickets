@@ -1,17 +1,6 @@
 <!--index.wxml-->
 <view>
 
-  <!-- launch init animation begin -->
-  <block wx:if="{{initLoading}}">
-    <view class="container">
-      <view class="userinfo ptb300">
-        <view class="donut"></view>
-      </view>
-    </view>
-  </block>
-  <!-- launch init animation end -->
-
-  <block wx:else>
     <!-- no user info -->
     <view wx:if="{{!hasUserInfo && canIUse}}" class="main-container mt200">    
       <view class="auth-banner">
@@ -37,7 +26,8 @@
           <text class="userinfo-sentence">买到票了吗？</text>
           </view>
       </view>
-
+      
+      
       <view class="picker-container flex-container white-bg mt20">
         <picker bindchange="bindPickerChange" value="{{index}}" range="{{pickerRange}}" class="picker-select">
           <view class="picker flex-container">
@@ -45,7 +35,26 @@
           </view>
         </picker>
       </view>
-      
+
+      <block wx:if="{{initLoading}}">
+        <view class="container">
+          <view class="userinfo ptb300">
+            <view class="donut"></view>
+          </view>
+        </view>
+      </block>
+
+      <block wx:else>
+        <view class="tickets-container mt20">
+          
+          <wxs src="../../wxs/index/tickets.wxs" module="tickets"></wxs>
+          <view class="mb20 userinfo-sentence">已购{{randomSeatsCount}}张票</view>
+
+          <view class="ticket white-bg" wx:for="{{randomSeatsArr}}" wx:key="key">
+            <text>{{tickets.getPositionByNumber(item).section}}区第{{tickets.getPositionByNumber(item).row}}排{{tickets.getPositionByNumber(item).column}}座</text>
+          </view>
+        </view>
+      </block>
     </view>
 
 
@@ -58,8 +67,7 @@
       </block>
 
       <block wx:else>
-        <button class="light-green-bg white full-button" hover-class="light-green-hover" catchtap="getTickets"> 随机购票 </button>
+        <button class="light-green-bg white full-button" hover-class="light-green-hover" catchtap="getRandomTickets"> 随机购票 </button>
       </block>
     </view>
-  </block>
 </view>

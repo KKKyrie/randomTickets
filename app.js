@@ -1,17 +1,17 @@
 //app.js
 App({
   onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    
+    this.getTickets();
+
+    // this.test();
 
     // 登录
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
-    })
+    });
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -31,9 +31,24 @@ App({
           })
         }
       }
-    })
+    });
   },
+
+  // 全局获取已购买的tickets数据
+  getTickets: function() {
+    var storage = wx.getStorageSync('userTickets');
+    var tickets = storage ? JSON.parse(storage) : {};
+    this.globalData.tickets = tickets;
+  },
+
+  test: function(){
+    for (let i = 1; i < 7800; i++){
+      this.globalData.tickets[i] = true;
+    }
+  },
+
   globalData: {
-    userInfo: null
+    userInfo: null,
+    tickets: {}
   }
 })
