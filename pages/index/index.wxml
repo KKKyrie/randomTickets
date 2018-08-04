@@ -1,6 +1,16 @@
 <!--index.wxml-->
 <view>
+  
+  <block wx:if="{{initLoading}}">
+    <view class="container">
+      <view class="userinfo ptb300">
+        <view class="donut"></view>
+      </view>
+    </view>
+  </block>
 
+
+  <block wx:else>
     <!-- no user info -->
     <view wx:if="{{!hasUserInfo && canIUse}}" class="main-container mt200">    
       <view class="auth-banner">
@@ -36,7 +46,7 @@
         </picker>
       </view>
 
-      <block wx:if="{{initLoading}}">
+      <block wx:if="{{ticketsLoading}}">
         <view class="container">
           <view class="userinfo ptb300">
             <view class="donut"></view>
@@ -70,4 +80,5 @@
         <button class="light-green-bg white full-button" hover-class="light-green-hover" catchtap="getRandomTickets"> 随机购票 </button>
       </block>
     </view>
+  </block>
 </view>

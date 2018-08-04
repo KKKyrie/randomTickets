@@ -8,6 +8,7 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     initLoading: true,
+    ticketsLoading: false,
 
     pickerRange: [1,2,3,4,5],
     pickerValue: 1,
@@ -25,7 +26,7 @@ Page({
   },
 
   onShow: function() {
-    this.turnOffLoading();
+    this.turnOffInitLoading();
   },
 
 
@@ -48,11 +49,20 @@ Page({
     });
   },
 
-  // 关闭小程序loading动画
-  turnOffLoading: function() {
+  
+  turnOffInitLoading: function() {
     setTimeout(() => {
       this.setData({
         initLoading: false
+      });
+    }, 1000);
+  },
+
+
+  turnOffTicketsLoading: function() {
+    setTimeout(() => {
+      this.setData({
+        ticketsLoading: false
       });
     }, 750);
   },
@@ -65,8 +75,6 @@ Page({
         hasUserInfo: true
       });
     } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
         this.setData({
           userInfo: res.userInfo,
@@ -190,12 +198,12 @@ Page({
     wx.setStorageSync('userTickets', JSON.stringify(globalTickets));
     
     this.setData({
-      initLoading: true
+      ticketsLoading: true
     });
 
     this.getInitTickets();
 
-    this.turnOffLoading();
+    this.turnOffTicketsLoading();
 
   }
 
