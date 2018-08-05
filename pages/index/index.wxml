@@ -33,7 +33,7 @@
           
         <view class="title-container">
           <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-          <text class="userinfo-sentence">买到票了吗？</text>
+          <text class="userinfo-sentence">佛系买票，了解一下？</text>
         </view>
 
         <!-- 重置按钮 -->
