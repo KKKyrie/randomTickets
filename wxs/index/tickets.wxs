@@ -1,4 +1,5 @@
 var getPositionByNumber = function(number) {
+  number = parseInt(number);
   var section = '';
   var minus = 0;
   var borders = [1, 1950, 1951, 3900, 3901, 5850, 5851, 7800];

@@ -13,7 +13,7 @@ Page({
     pickerRange: [1,2,3,4,5],
     pickerValue: 1,
     randomSeats: {},
-    randomSeatsArr: [],
+    randomSeatsArr: [], // 界面渲染用
     randomSeatsCount: 0,
     TOTAL_SEATS_COUNT: 7800,
     SECTION_BORDERS: [1, 1950, 1951, 3900, 3901, 5850, 5851, 7800]
@@ -42,6 +42,7 @@ Page({
     let tickets = app.globalData.tickets;
     let ticketsArr = Object.keys(tickets);
     let count = ticketsArr.length;
+
     this.setData({
       randomSeats: tickets,
       randomSeatsArr: ticketsArr,
@@ -111,7 +112,6 @@ Page({
     let leftTickets = max - this.data.randomSeatsCount;
     let seats = this.data.randomSeats;
     let seatNumber = 0;
-    let position = {};
     let tempTickets = [];
     
     // 用户输入不合法
@@ -130,6 +130,11 @@ Page({
       do {
         seatNumber = util.getRandomNumber(max);
       } while (seats[seatNumber]);
+
+
+      // todo: new random method
+
+
       
       tempTickets.push(seatNumber);      
     }
