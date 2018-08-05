@@ -96,8 +96,34 @@
   margin-bottom: 30rpx;
 }
 
+.shadow-red {
+  box-shadow: -20rpx 5rpx #ff5945 inset;
+}
+
+.shadow-yellow {
+  box-shadow: -20rpx 5rpx #ffcf5d inset;
+}
+
+.shadow-blue {
+  box-shadow: -20rpx 5rpx #3385ff inset;
+}
+
+.shadow-green {
+  box-shadow: -20rpx 5rpx #1aad19 inset;
+}
+
 .ticket:last-child {
   margin-bottom: 180rpx;
+}
+
+.reset-button-area {
+  margin-right: 50rpx;
+  margin-left: auto;
+}
+
+.trash-button {
+  width: 60rpx;
+  height: 60rpx;
 }
 
 

@@ -58,7 +58,7 @@ App({
 
   // 测试函数
   test: function(){
-    for (let i = 1; i < 7800; i++){
+    for (let i = 1; i < 7798; i++){
       this.globalData.tickets[i] = true;
     }
   },

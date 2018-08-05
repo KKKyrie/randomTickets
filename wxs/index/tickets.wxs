@@ -44,6 +44,21 @@ var getPositionByNumber = function(number) {
 }
 
 
+var getColor = function(number) {
+  var borders = [1, 1950, 1951, 3900, 3901, 5850, 5851, 7800];
+  if (number >= borders[0] && number <= borders[1]){
+    return 'shadow-red';
+  } else if (number >= borders[2] && number <= borders[3]){
+    return 'shadow-blue';
+  } else if (number >= borders[4] && number <= borders[5]){
+    return 'shadow-yellow';
+  } else {
+    return 'shadow-green';
+  }
+}
+
+
 module.exports = {
+  getColor: getColor,
   getPositionByNumber: getPositionByNumber
 }

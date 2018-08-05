@@ -114,8 +114,9 @@ Page({
     let ticketsCount = this.data.pickerValue;
     let max = this.data.TOTAL_SEATS_COUNT;
     let leftTickets = max - this.data.randomSeatsCount;
-    let seats = this.data.randomSeats;
-    let seatNumber = 0;
+    
+    let seatNumber = 0; //index
+    let seat;
     let tempTickets = [];
 
     let randomPool = this.data.randomPool;
@@ -136,9 +137,10 @@ Page({
 
       do {
         seatNumber = util.getRandomNumber(leftTickets);
-      } while (tempTickets.findIndex((val) => val === seatNumber) !== -1);
+        seat = randomPool[seatNumber];
+      } while (tempTickets.findIndex((val) => val === seat) !== -1);
       
-      tempTickets.push(randomPool[seatNumber]);
+      tempTickets.push(seat);
 
       util.swap(randomPool, seatNumber, leftTickets);
       leftTickets--;
@@ -201,7 +203,7 @@ Page({
     });
   },
 
-  confirmBuyTickets: function(tickets, newRandomPool){
+  confirmBuyTickets: function(tickets, newRandomPool) {
 
     let globalTickets = app.globalData.tickets;
     tickets.forEach(function(value){
@@ -221,6 +223,40 @@ Page({
 
     this.turnOffTicketsLoading();
 
+  },
+
+  resetButtonClick: function() {
+    let that = this;
+    wx.showModal({
+      title: '提示',
+      content: '重置操作一旦执行，不可恢复，是否重置？',
+      confirmText: '确认重置',
+      confirmColor: '#ff5945',
+      cancelText: '取消',
+      success: function(res) {
+        if (res.confirm) {
+          that.reset();
+        }
+      }
+    });
+  },
+
+  reset: function() {
+    wx.removeStorageSync('userTickets');
+    wx.removeStorageSync('userRandomPool');
+
+    app.getTickets();
+    app.initRandomPool();
+
+    this.setData({
+      ticketsLoading: true,
+      randomSeats: {},
+      randomPool: app.globalData.randomPool,
+      randomSeatsArr: [],
+      randomSeatsCount: 0
+    });
+    
+    this.turnOffTicketsLoading();
   }
 
 });
