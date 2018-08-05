@@ -13,6 +13,7 @@ Page({
     pickerRange: [1,2,3,4,5],
     pickerValue: 1,
     randomSeats: {},
+    randomPool: [], // 随机数池
     randomSeatsArr: [], // 界面渲染用
     randomSeatsCount: 0,
     TOTAL_SEATS_COUNT: 7800,
@@ -43,10 +44,13 @@ Page({
     let ticketsArr = Object.keys(tickets);
     let count = ticketsArr.length;
 
+    let pool = app.globalData.randomPool;
+
     this.setData({
       randomSeats: tickets,
       randomSeatsArr: ticketsArr,
-      randomSeatsCount: count
+      randomSeatsCount: count,
+      randomPool: pool
     });
   },
 
@@ -113,6 +117,8 @@ Page({
     let seats = this.data.randomSeats;
     let seatNumber = 0;
     let tempTickets = [];
+
+    let randomPool = this.data.randomPool;
     
     // 用户输入不合法
     if (!this.checkUserInput(ticketsCount)){
@@ -127,19 +133,18 @@ Page({
 
 
     for (let i = 0; i < ticketsCount; i++){
+
       do {
-        seatNumber = util.getRandomNumber(max);
-      } while (seats[seatNumber]);
-
-
-      // todo: new random method
-
-
+        seatNumber = util.getRandomNumber(leftTickets);
+      } while (tempTickets.findIndex((val) => val === seatNumber) !== -1);
       
-      tempTickets.push(seatNumber);      
+      tempTickets.push(randomPool[seatNumber]);
+
+      util.swap(randomPool, seatNumber, leftTickets);
+      leftTickets--;
     }
 
-    this.showTicketInfo(tempTickets);
+    this.showTicketInfo(tempTickets, JSON.stringify(randomPool));
 
   },
 
@@ -170,7 +175,7 @@ Page({
     });
   },
 
-  showTicketInfo: function(tickets) {
+  showTicketInfo: function(tickets, newRandomPool) {
     let that = this;
     let content = '为你挑选座位：';
     let ticket = {};
@@ -186,21 +191,27 @@ Page({
       cancelText: '取消',
       success: function(res) {
         if (res.confirm) {
-          that.confirmBuyTickets(tickets);
+          that.confirmBuyTickets(tickets, newRandomPool);
         } else if (res.cancel) {
-          console.log('cancel');
+          that.setData({
+            randomPool: app.globalData.randomPool
+          });
         }
       }
     });
   },
 
-  confirmBuyTickets: function(tickets){
+  confirmBuyTickets: function(tickets, newRandomPool){
 
     let globalTickets = app.globalData.tickets;
     tickets.forEach(function(value){
       globalTickets[value] = true;
     });
+
     wx.setStorageSync('userTickets', JSON.stringify(globalTickets));
+    wx.setStorageSync('userRandomPool', newRandomPool);
+
+    app.globalData.randomPool = JSON.parse(newRandomPool);
     
     this.setData({
       ticketsLoading: true

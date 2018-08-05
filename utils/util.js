@@ -48,7 +48,15 @@ const getPositionByNumber = (number, borders) => {
 }
 
 
+const swap = (arr, firstIndex, secondIndex) => {
+  let temp = arr[firstIndex];
+  arr[firstIndex] = arr[secondIndex];
+  arr[secondIndex] = temp;
+}
+
+
 module.exports = {
   getRandomNumber,
-  getPositionByNumber
+  getPositionByNumber,
+  swap
 }

@@ -3,8 +3,7 @@ App({
   onLaunch: function () {
     
     this.getTickets();
-
-    // this.test();
+    this.initRandomPool();
 
     // 登录
     wx.login({
@@ -33,11 +32,31 @@ App({
 
   // 全局获取已购买的tickets数据
   getTickets: function() {
-    var storage = wx.getStorageSync('userTickets');
-    var tickets = storage ? JSON.parse(storage) : {};
+    let storageTickets = wx.getStorageSync('userTickets');
+    let tickets = storageTickets ? JSON.parse(storageTickets) : {};
     this.globalData.tickets = tickets;
   },
 
+  // 初始化随机数池
+  initRandomPool: function() {
+    let storagePool = wx.getStorageSync('userRandomPool');
+    let randomPool = [];
+    if (storagePool){
+      randomPool = JSON.parse(storagePool);
+    } else {
+      // 初始化randomPool
+      for (let i = 1; i < 7801; i++){
+        randomPool[i] = i;
+      }
+      // 立马写进 straoge 里面，不用每次打开都循环7000+次了
+      wx.setStorageSync('userRandomPool', JSON.stringify(randomPool));
+    }
+
+    this.globalData.randomPool = randomPool;
+
+  },
+
+  // 测试函数
   test: function(){
     for (let i = 1; i < 7800; i++){
       this.globalData.tickets[i] = true;
@@ -46,6 +65,7 @@ App({
 
   globalData: {
     userInfo: null,
-    tickets: {}
+    tickets: {},
+    randomPool: []
   }
 })
