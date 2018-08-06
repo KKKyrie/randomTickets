@@ -20,7 +20,7 @@
 借助小程序```setStorageSync/getStorageSync```的本地数据持久化存储方案，将已购买的票（已预定的座位）保存在Storage中。  
   
 ##### Todo
-- 本地数据清空功能   
+- 本地数据清空功能（done）   
 
 
   
